@@ -1,1 +1,0 @@
--- Basic SQL SELECT example
