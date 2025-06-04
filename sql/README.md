@@ -1,6 +1,6 @@
 # SQL Exercises
 
-This folder contains SQL practice queries using multiple sample databases stored in the `db/` directory. These exercises are intended for learning and showcasing SQL skills with real-world-style datasets.
+This folder contains SQL practice queries using multiple sample databases stored in the `db/` directory.
 
 ## 🗃️ Databases Used (in `db/` folder)
 
@@ -15,8 +15,7 @@ This folder contains SQL practice queries using multiple sample databases stored
 
 ## 📄 How to Use
 
-1. Open the `.db` files using a SQLite extension in Visual Studio Code:
-   - Recommended: `SQLite` by alexcvzz
+1. Open the `.db` files using SQLite 
 
 2. Run queries from the `.sql` files:
    - `chinook_queries.sql` – queries for `chinook.db`
