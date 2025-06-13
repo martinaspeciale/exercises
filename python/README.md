@@ -15,6 +15,9 @@ This folder contains examples of using **Python decorators** and **generators** 
 - `caching.py` → Example of caching function results with `@lru_cache` (useful for expensive computations).
 - `args_kwargs.py` → Example of using `*args` and `**kwargs` in functions and decorators.
 - `yield.py` → Small example to illustrate how `yield` works.
+- `count_calls.py` → Decorator that counts how many times a function has been called.
+- `log_to_file.py` → Decorator that logs function calls and results to a log file.
+
 
 ## Why these patterns matter:
 
