@@ -17,6 +17,8 @@ This folder contains examples of using **Python decorators** and **generators** 
 - `yield.py` → Small example to illustrate how `yield` works.
 - `count_calls.py` → Decorator that counts how many times a function has been called.
 - `log_to_file.py` → Decorator that logs function calls and results to a log file.
+- `memoize.py` → Simple memoization decorator implemented manually (cache results of pure functions).
+- `chaining_decorators.py` → Example of chaining multiple decorators (timing + log_calls) on a single function.
 
 
 ## Why these patterns matter:
