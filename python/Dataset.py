@@ -2,6 +2,19 @@ import random
 
 class Dataset:
     def __init__(self, name, data, labels):
+        if not isinstance(data, list): 
+            raise TypeError("data must be a list") 
+        if not isinstance(labels, list):
+            raise TypeError("labels must be a list)")
+
+        if len(data) != len(labels):
+            raise ValueError("data and labels must have the same length")
+        
+        if not all(isinstance(x,(int,float)) for x in data):
+            raise TypeError("all data values must be numeric")
+        
+        if not all(isinstance(x,str) for x in labels):
+            raise TypeError("all labels must be strings")
         self.name=name
         self.data=data
         self.labels=labels
