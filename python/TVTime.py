@@ -1,6 +1,16 @@
 import sqlite3
 import hashlib
-from time import sleep
+import time
+import getpass 
+
+def timing(f):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = f(*args, **kwargs)
+        end = time.time() 
+        print(f"{f.__name__} took {end-start:.2f} seconds")
+        return result 
+    return wrapper 
 
 # ------------------------
 # PASSWORD HASHING
@@ -58,6 +68,7 @@ class TVTime:
 # ------------------------
 # DATABASE FUNCTIONS
 # ------------------------
+@timing
 def register_user(username, password):
     hashed_password = hash_password(password)
     conn = sqlite3.connect("tvtime.db")
@@ -70,6 +81,7 @@ def register_user(username, password):
         print("Username already exists.")
     conn.close()
 
+@timing 
 def login_user(username, password):
     hashed_password = hash_password(password)
     conn = sqlite3.connect("tvtime.db") 
@@ -115,19 +127,19 @@ if __name__ == "__main__":
 
     while True: 
         print("Welcome to TVTime!")
-        sleep(1)
         print("...")
         choice = input('''
-Select an option:
-    1. Login
-    2. Sign up
-    3. Exit
-> ''')
+            Select an option:
+                1. Login
+                2. Sign up
+                3. Exit
+            > 
+        ''')
 
         match choice:
             case "1":
                 username = input("Username: ")
-                password = input("Password: ")
+                password = getpass.getpass("Password: ")
                 if login_user(username, password):
                     user = User(username, password)
                     tvtime = TVTime(user)
@@ -157,8 +169,12 @@ Select an option:
                                 print("Invalid choice.")
             case "2":
                 username = input("Choose a username: ")
-                password = input("Choose a password: ")
-                register_user(username, password)
+                password = getpass.getpass("Choose a password: ")
+                confirm_password = getpass.getpass("Repeat the password: ")
+                if password != confirm_password:
+                    print("Passwords do not match. Please try again.")
+                else:
+                    register_user(username, password)
             case "3":
                 print("Goodbye!")
                 break
