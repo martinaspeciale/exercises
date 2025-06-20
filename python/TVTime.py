@@ -33,6 +33,11 @@ class User:
     def __str__(self):
         return f"Hi {self.username}!"
 
+class Admin(User):
+    def __str__(self):
+        return super().__str__() + " (Admin privileges)"
+
+
 class TVShow: 
     def __init__(self, title, year, seasons):
         self.title = title 
