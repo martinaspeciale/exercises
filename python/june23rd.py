@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd 
 from faker import Faker 
 import os 
+import datetime 
 
 np.random.seed(42)
 Faker.seed(42)
@@ -32,6 +33,10 @@ if __name__ == '__main__' :
         data.to_csv('data/data.csv')
 
     df = pd.read_csv('data/data.csv') 
-    print(df)
+    # print(df)
 
-    
+
+    # cleaner version 
+    filename = f"data/cleaned_data_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+    df.to_csv(filename, index=False)
+    print(f"File {filename} created successfully")
