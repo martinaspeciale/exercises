@@ -2,6 +2,7 @@
 import numpy as np 
 import pandas as pd 
 from faker import Faker 
+import os 
 
 np.random.seed(42)
 Faker.seed(42)
@@ -20,9 +21,17 @@ if __name__ == '__main__' :
 
     n = 5
     fake = Faker()
-    data = pd.DataFrame({
-        'name' : [fake.first_name() for _ in range(n)], 
-        'city' : [fake.city() for _ in range(n)],
-        'howmuch' : np.random.randint(50, 200, n)
-    })
-    print(data)
+
+    if not os.path.exists('data/data.csv'):
+        data = pd.DataFrame({
+            'name' : [fake.first_name() for _ in range(n)], 
+            'city' : [fake.city() for _ in range(n)],
+            'bought' : np.random.randint(50, 200, n)
+        })
+        print(data)
+        data.to_csv('data/data.csv')
+
+    df = pd.read_csv('data/data.csv') 
+    print(df)
+
+    
