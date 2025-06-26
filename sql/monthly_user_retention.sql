@@ -27,3 +27,32 @@ select
 from 
   july_users ju
   inner join june_users ju2 on ju.user_id = ju2.user_id;
+
+
+-- Actual solution for DataLemur Exercise: 
+-- Title: Monthly Active Users Retained - July 2022
+-- Description: Counts users active in both June and July 2022 
+--              (defined as performing any action in both months).
+
+with june_users as (
+  select distinct user_id
+  from user_actions 
+  where extract(year from event_date) = 2022 
+    and extract(month from event_date) = 6
+),
+july_users as (
+  select distinct user_id
+  from user_actions 
+  where extract(year from event_date) = 2022 
+    and extract(month from event_date) = 7
+)
+
+select 
+  7 as month, 
+  count(*) as monthly_active_users
+from (
+  select ju.user_id
+  from july_users ju
+  inner join june_users ju2 on ju.user_id = ju2.user_id
+) retained_users;
+
