@@ -52,3 +52,49 @@ print("Symmetric Difference (^):", symmetric_diff1)
 # Method 2: Using .symmetric_difference() method
 symmetric_diff2 = list(set(a).symmetric_difference(b))
 print("Symmetric Difference (.symmetric_difference()):", symmetric_diff2)
+
+
+# --------------------------------------------------------------------------
+
+import numpy as np
+
+# Given two NumPy arrays
+a = np.array([1, 2, 3, 4])
+b = np.array([3, 4, 5, 6])
+
+# =============================
+# UNION: All unique elements from both arrays
+# =============================
+
+# np.union1d returns the sorted unique union
+union = np.union1d(a, b)
+print("Union:", union)
+
+# =============================
+# INTERSECTION: Elements common to both arrays
+# =============================
+
+# np.intersect1d returns the sorted unique intersection
+intersection = np.intersect1d(a, b)
+print("Intersection:", intersection)
+
+# =============================
+# DIFFERENCE: Elements in a but not in b
+# =============================
+
+# np.setdiff1d returns sorted unique elements in a not in b
+difference_a_b = np.setdiff1d(a, b)
+print("Difference (a - b):", difference_a_b)
+
+# np.setdiff1d for b - a
+difference_b_a = np.setdiff1d(b, a)
+print("Difference (b - a):", difference_b_a)
+
+# =============================
+# SYMMETRIC DIFFERENCE: Elements in a or b but not both
+# =============================
+
+# Compute symmetric difference manually with union and intersection
+symmetric_difference = np.setxor1d(a, b)
+print("Symmetric Difference:", symmetric_difference)
+
