@@ -29,3 +29,42 @@ strength = [
 ]
 print(weakest_strong_link(strength))  # Output: 7
 
+# ----------------------------------------------------------------
+import numpy as np
+
+# This function finds the Weakest Strong Link in a matrix of strengths.
+# A link (i, j) is the Weakest Strong Link if:
+# - It is the minimum in its row (weakest in its row),
+# - It is the maximum in its column (strongest in its column).
+# If such a link exists, return its value as an integer.
+# If no such link exists, return -1.
+
+def weakest_strong_link(strength):
+    strength = np.array(strength)
+    rows, cols = strength.shape
+
+    # Find the minimum value in each row
+    row_mins = np.min(strength, axis=1)
+    # Find the maximum value in each column
+    col_maxs = np.max(strength, axis=0)
+
+    # Check every cell in the matrix
+    for i in range(rows):
+        for j in range(cols):
+            if strength[i, j] == row_mins[i] and strength[i, j] == col_maxs[j]:
+                # Return as a plain Python int
+                return int(strength[i, j])
+
+    # If no such link exists
+    return -1
+
+# Example usage
+strength = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+
+result = weakest_strong_link(strength)
+print(result)  # Expected output: 7
+
