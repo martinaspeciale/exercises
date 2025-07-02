@@ -38,3 +38,39 @@ GROUP BY department
 ORDER BY department;
 
 -- this manually defines each category in CASE statements, hard to scale if many categories
+
+
+-- OPTIMIZED VERSION (using PIVOT in SQL Server)
+SELECT 
+    department, Travel, Supplies, Equipment
+FROM (
+    SELECT department, category, amount
+    FROM expenses
+    WHERE expense_month = '2024-01-01'
+) AS src
+PIVOT (
+    SUM(amount) FOR category IN ([Travel], [Supplies], [Equipment])
+) AS p;
+
+
+-- Alternative in PostgreSQL (with crosstab)
+-- In PostgreSQL using tablefunc extension
+-- Enable extension first:
+-- CREATE EXTENSION IF NOT EXISTS tablefunc;
+
+SELECT * FROM crosstab(
+  $$
+  SELECT department, category, amount
+  FROM expenses
+  WHERE expense_month = '2024-01-01'
+  ORDER BY department, category
+  $$,
+  $$ VALUES ('Travel'), ('Supplies'), ('Equipment') $$
+) AS (
+  department TEXT,
+  Travel NUMERIC,
+  Supplies NUMERIC,
+  Equipment NUMERIC
+);
+
+-- the pivot approach is more maintainable, scalable, and easier for reporting
