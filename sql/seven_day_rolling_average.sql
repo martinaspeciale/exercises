@@ -40,3 +40,19 @@ WHERE s1.store_id = 1
 ORDER BY s1.sale_date;
 
 -- this runs a subquery for every row --> slow for large data 
+
+-- OPTIMIZED VERSION WITH WINDOW FUNCTION 
+-- OPTIMIZED VERSION
+SELECT
+    sale_date,
+    amount,
+    ROUND(AVG(amount) OVER (
+        PARTITION BY store_id
+        ORDER BY sale_date
+        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ), 2) AS rolling_avg_7_days
+FROM sales
+WHERE store_id = 1
+ORDER BY sale_date;
+
+-- window function computes rolling average efficiently without repeated subqueries
