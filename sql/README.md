@@ -1,30 +1,29 @@
-# SQL Exercises
+# SQL Analysis Exercises 📊
 
-This folder contains SQL practice queries using multiple sample databases stored in the `db/` directory.
+This repository contains a collection of advanced SQL exercises covering 
+retention, cohort analysis, revenue tracking, customer behavior, and 
+real-life business cases.
 
-## 🗃️ Databases Used (in `db/` folder)
+## 📁 Topics
 
-- **chinook.db** – A digital music store database. Tables include `Artist`, `Album`, `Track`, `Invoice`, `Customer`.
-  - Source: [Chinook Database](https://www.timestored.com/data/sample/chinook.db)
+### 📈 Revenue
+- [revenue_contribution.sql](revenue/revenue_contribution.sql)
+- [revenue_share_per_month.sql](revenue/revenue_share_per_month.sql)
 
-- **northwind.db** – Classic inventory/order management database. Tables include `Products`, `Orders`, `Employees`, `Customers`.
-  - Source: [Northwind for SQLite](https://www.timestored.com/data/sample/northwind_small.sqlite)
+### 👥 Retention & Churn
+- [monthly_user_retention.sql](retention/monthly_user_retention.sql)
+- [customer_churn_flag.sql](retention/customer_churn_flag.sql)
 
-- **sakila.db** – Video rental database with film metadata, customers, rentals, payments, and staff.
-  - Source: [Sakila SQLite port](https://www.timestored.com/data/sample/sakila.db)
+### 🛒 Orders & Products
+- [most_freq_ordered.sql](orders/most_freq_ordered.sql)
+- 
+[longest_gap_between_orders_per_product.sql](orders/longest_gap_between_orders_per_product.sql)
 
-## 📄 How to Use
+### 🧠 Customer Segmentation
+- [customer_segmentation.sql](segmentation/customer_segmentation.sql)
 
-1. Open the `.db` files using SQLite 
+### 💼 Company-specific cases
+- [Amazon.sql](company-specific/Amazon.sql)
+- [Google_median.sql](company-specific/Google_median.sql)
 
-2. Run queries from the `.sql` files:
-   - `chinook_queries.sql` – queries for `chinook.db`
-   - `northwind_queries.sql` – queries for `northwind.db`
-   - `sakila_queries.sql` – queries for `sakila.db`
-
-3. Modify or extend queries to explore advanced SQL concepts like:
-   - JOINs
-   - GROUP BY & Aggregations
-   - Subqueries
-   - Window functions
 
