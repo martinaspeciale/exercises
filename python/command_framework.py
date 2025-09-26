@@ -5,6 +5,7 @@ Run: python command_framework.py
 from __future__ import annotations
 import time
 from typing import Any, Callable, Dict, Iterable, Optional
+from functools import wraps
 
 
 # --- Exceptions --------------------------------------------------------------
@@ -66,6 +67,15 @@ class CommandRegistry:
         return {k: set(v) for k, v in self._roles_required.items()}
 
 REGISTRY = CommandRegistry()
+
+# --- Decorators: @command ----------------------------------------------------
+def command(name: Optional[str] = None, *, roles: Optional[Iterable[str]] = None):
+    """Register a function as a command with optional required roles."""
+    def deco(fn: Callable[..., Any]) -> Callable[..., Any]:
+        cmd_name = name or fn.__name__
+        REGISTRY.register(cmd_name, fn, roles=roles)
+        return fn
+    return deco
 
 
 def main():
