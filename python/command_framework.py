@@ -107,6 +107,59 @@ def logged(*, prefix: str = ""):
         return wrapper
     return deco
 
+
+# --- Caching -----------------------------------------------------------------
+def freeze_args(args: Tuple[Any, ...], kwargs: Dict[str, Any]) -> Hashable:
+    """Turn args/kwargs into a hashable key for caching."""
+    return (args, tuple(sorted(kwargs.items())))
+
+class LRUCache:
+    """Small LRU cache with hit/miss stats."""
+    def __init__(self, maxsize: int = 128):
+        if maxsize <= 0:
+            raise ValueError("maxsize must be > 0")
+        self.maxsize = maxsize
+        self._data: "OrderedDict[Hashable, Any]" = OrderedDict()
+        self.hits = 0
+        self.misses = 0
+    def __len__(self) -> int:
+        return len(self._data)
+    def get(self, key: Hashable, default: Any = None) -> Any:
+        if key in self._data:
+            self._data.move_to_end(key)
+            self.hits += 1
+            return self._data[key]
+        self.misses += 1
+        return default
+    def put(self, key: Hashable, value: Any) -> None:
+        self._data[key] = value
+        self._data.move_to_end(key)
+        if len(self._data) > self.maxsize:
+            self._data.popitem(last=False)
+    def stats(self) -> Dict[str, Any]:
+        return {"hits": self.hits, "misses": self.misses, "size": len(self._data), "capacity": self.maxsize}
+
+def memoize(*, maxsize: int = 128):
+    """LRU memoization decorator using a per-function cache."""
+    cache = LRUCache(maxsize=maxsize)
+    def deco(fn: Callable[..., Any]) -> Callable[..., Any]:
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            key = freeze_args(args, kwargs)
+            if key in cache._data:
+                cache.hits += 1
+                print(f"[cache] HIT  {fn.__name__} key={kwargs or args}")
+                cache._data.move_to_end(key)
+                return cache._data[key]
+            print(f"[cache] MISS {fn.__name__} key={kwargs or args}")
+            value = fn(*args, **kwargs)
+            cache.put(key, value)
+            return value
+        # Expose cache for inspection
+        wrapper._lru_cache = cache  # type: ignore[attr-defined]
+        return wrapper
+    return deco
+
 def main():
     # Temporary entry point for early versions
     print("Command framework — WIP")
