@@ -90,6 +90,22 @@ def requires_args(*required: str):
         return wrapper
     return deco
 
+# --- Decorators: @logged -----------------------------------------------------
+def logged(*, prefix: str = ""):
+    """Log start and end of a function call with kwargs and elapsed time."""
+    def deco(fn: Callable[..., Any]) -> Callable[..., Any]:
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            fname = fn.__name__
+            print(f"[log] START {prefix}{fname} kwargs={kwargs}")
+            with Timer() as t:
+                result = fn(*args, **kwargs)
+            elapsed = f"{t.dt:.3f} s"
+            disp = repr(result) if isinstance(result, str) else result
+            print(f"[log] END   {prefix}{fname} -> {disp} in {elapsed}")
+            return result
+        return wrapper
+    return deco
 
 def main():
     # Temporary entry point for early versions
