@@ -77,6 +77,19 @@ def command(name: Optional[str] = None, *, roles: Optional[Iterable[str]] = None
         return fn
     return deco
 
+# --- Decorators: @requires_args ----------------------------------------------
+def requires_args(*required: str):
+    """Ensure specified kwargs are present before invoking the function."""
+    def deco(fn: Callable[..., Any]) -> Callable[..., Any]:
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            missing = [r for r in required if r not in kwargs]
+            if missing:
+                raise BadArgumentsError(f"Missing required arguments: {missing}")
+            return fn(*args, **kwargs)
+        return wrapper
+    return deco
+
 
 def main():
     # Temporary entry point for early versions
